@@ -16,7 +16,7 @@ const requestConfig = {
 };
 
 export default function Checkout() {
-  const { items } = useContext(CartContext);
+  const { items, clearCart } = useContext(CartContext);
   const { progress, hideCheckout } = useContext(UserProgressContext);
 
   const {
@@ -51,6 +51,11 @@ export default function Checkout() {
     );
   }
 
+  function handelFinish() {
+    hideCheckout();
+    clearCart();
+  }
+
   let actions = (
     <>
       <Button type="button" textOnly onClick={handelClose}>
@@ -66,7 +71,7 @@ export default function Checkout() {
 
   if (data.message === "Order created!" && !error) {
     return (
-      <Modal open={progress === "checkout"} onClose={handelClose}>
+      <Modal open={progress === "checkout"} onClose={handelFinish}>
         <h2>Success!</h2>
         <p>Your order was subimtted Successfully.</p>
         <p>
@@ -74,7 +79,7 @@ export default function Checkout() {
           few minuets.
         </p>
         <p className="modal-actions">
-          <Button onClick={handelClose}>Okay</Button>
+          <Button onClick={handelFinish}>Okay</Button>
         </p>
       </Modal>
     );
