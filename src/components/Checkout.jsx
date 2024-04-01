@@ -24,6 +24,7 @@ export default function Checkout() {
     isLoading: isSending,
     error,
     sendRequest,
+    clearData,
   } = useHttp("http://localhost:3000/orders", requestConfig, []);
 
   const cartTotal = items.reduce(
@@ -54,6 +55,7 @@ export default function Checkout() {
   function handelFinish() {
     hideCheckout();
     clearCart();
+    clearData();
   }
 
   let actions = (
@@ -68,7 +70,7 @@ export default function Checkout() {
   if (isSending) {
     actions = <span>Sending order data...</span>;
   }
-
+  console.log(data);
   if (data.message === "Order created!" && !error) {
     return (
       <Modal open={progress === "checkout"} onClose={handelFinish}>
